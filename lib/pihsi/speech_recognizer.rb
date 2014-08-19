@@ -1,11 +1,12 @@
-class Pihsi::SpeechRecognizer
-  attr_reader :hmm, :lm, :dict
+require "pocket_sphinx"
 
-  def initialize(hmm, lm, dict)
-    @hmm, @lm, @dict = hmm, lm, dict
-  end
+module Pihsi
+  class SpeechRecognizer
+    include PocketSphinx
+    attr_reader :hmm, :lm, :dict
 
-  def recognize(string_buffer)
-    'go forward ten meters'
+    def initialize(hmm, lm, dict)
+      @hmm, @lm, @dict = hmm, lm, dict
+    end
   end
 end
