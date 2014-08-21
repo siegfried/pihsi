@@ -31,7 +31,7 @@ VALUE recognize(VALUE self, VALUE string_buffer) {
 }
 
 void Init_pocket_sphinx() {
-	VALUE rb_cPihsiModule = rb_define_module("Pihsi");
-	VALUE rb_cPocketSphinxModule = rb_define_module_under(rb_cPihsiModule, "PocketSphinx");
-	rb_define_method(rb_cPocketSphinxModule, "recognize", recognize, 1);
+	VALUE rb_mPihsi = rb_define_module("Pihsi");
+	VALUE rb_mPocketSphinx = rb_define_module_under(rb_mPihsi, "PocketSphinx");
+	rb_define_method(rb_mPocketSphinx, "recognize", recognize, 1);
 }
