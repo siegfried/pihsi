@@ -1,6 +1,6 @@
 # Pihsi
 
-TODO: Write a gem description
+Pihsi is a Ruby Speech Recognition toolkit based on [PocketSphinx](http://cmusphinx.sourceforge.net).
 
 ## Installation
 
@@ -20,7 +20,17 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Initialize Pihsi::SpeechRecognizer with proper [hmm, lm and dict](http://cmusphinx.sourceforge.net/wiki/tutorialpocketsphinx#initialization):
+
+```ruby
+recognizer = Pihsi::SpeechRecognizer.new hmm, lm, dict
+```
+
+Recognize a string read from your audio file:
+
+```ruby
+recognizer.recognize string_buffer
+```
 
 ## Contributing
 
