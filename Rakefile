@@ -12,3 +12,5 @@ RSpec::Core::RakeTask.new do |t|
 end
 
 task :spec => :compile
+
+task default: %w[spec]
