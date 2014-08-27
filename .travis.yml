@@ -7,4 +7,3 @@ rvm:
 before_install:
   - sudo apt-get update
   - sudo apt-get install pocketsphinx libpocketsphinx-dev libsphinxbase-dev
-  - gem update bundler
