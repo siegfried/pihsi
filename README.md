@@ -1,5 +1,7 @@
 # Pihsi
 
+[![Build Status](https://travis-ci.org/siegfried/pihsi.svg?branch=master)](https://travis-ci.org/siegfried/pihsi)
+
 Pihsi is a Ruby Speech Recognition toolkit based on [PocketSphinx](http://cmusphinx.sourceforge.net).
 
 ## Installation
