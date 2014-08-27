@@ -6,5 +6,5 @@ rvm:
   - rbx-2.2.10
 before_install:
   - sudo apt-get update
-  - sudo apt-get install libpocketsphinx-dev libsphinxbase-dev
+  - sudo apt-get install pocketsphinx libpocketsphinx-dev libsphinxbase-dev
   - gem update bundler
