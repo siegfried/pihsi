@@ -1,11 +1,11 @@
 RSpec.describe Pihsi::SpeechRecognizer do
   let(:instance) { build :speech_recognizer }
 
-  describe '#recognize(string_buffer)' do
-    subject { instance.recognize(string_buffer) }
+  describe '#recognize(data)' do
+    subject { instance.recognize(data) }
 
-    context 'when string_buffer is the content of goforward.raw' do
-      let(:string_buffer) { File.read 'spec/fixtures/goforward.raw' }
+    context 'when data is the content of goforward.raw' do
+      let(:data) { File.read('spec/fixtures/goforward.raw').unpack('s*') }
 
       it { should eq "go forward ten meters" }
     end

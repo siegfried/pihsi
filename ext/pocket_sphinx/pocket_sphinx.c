@@ -1,12 +1,17 @@
 #include <ruby.h>
 #include <pocketsphinx.h>
 
-VALUE recognize(VALUE self, VALUE string_buffer) {
+VALUE recognize(VALUE self, VALUE data) {
 	char const *hyp, *uttid;
 	int rv;
 	int32 score;
 	ps_decoder_t *ps;
 	cmd_ln_t *config;
+	int data_length = RARRAY_LEN(data);
+	int16 *c_data = malloc(sizeof(int16) * data_length);
+	for(int i = 0; i < data_length; i++) {
+		c_data[i] = NUM2SHORT(rb_ary_entry(data, i));
+	}
 
 	char *hmm = RSTRING_PTR(rb_funcall(self, rb_intern("hmm"), 0));
 	char *lm = RSTRING_PTR(rb_funcall(self, rb_intern("lm"), 0));
@@ -20,7 +25,7 @@ VALUE recognize(VALUE self, VALUE string_buffer) {
 	if (rv < 0)
 		rb_raise(rb_eStandardError, "cannot start utterance");
 
-	rv = ps_process_raw(ps, (const int16 *) RSTRING_PTR(string_buffer), RSTRING_LEN(string_buffer) / 2, FALSE, FALSE);
+	rv = ps_process_raw(ps, c_data, data_length, FALSE, FALSE);
 	rv = ps_end_utt(ps);
 	if (rv < 0)
 		rb_raise(rb_eStandardError, "cannot end utterance");
