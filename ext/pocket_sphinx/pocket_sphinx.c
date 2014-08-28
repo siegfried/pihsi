@@ -36,6 +36,8 @@ VALUE recognize(VALUE self, VALUE data) {
 	hyp = ps_get_hyp(ps, &score, &uttid);
 	if (hyp == NULL)
 		rb_raise(rb_eStandardError, "no hypothesis string");
+
+	free(c_data);
 	return rb_str_new2(hyp);
 }
 
