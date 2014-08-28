@@ -7,15 +7,19 @@ VALUE recognize(VALUE self, VALUE data) {
 	int32 score;
 	ps_decoder_t *ps;
 	cmd_ln_t *config;
+
 	int data_length = RARRAY_LEN(data);
 	int16 *c_data = malloc(sizeof(int16) * data_length);
-	for(int i = 0; i < data_length; i++) {
-		c_data[i] = NUM2SHORT(rb_ary_entry(data, i));
-	}
 
 	char *hmm = RSTRING_PTR(rb_funcall(self, rb_intern("hmm"), 0));
 	char *lm = RSTRING_PTR(rb_funcall(self, rb_intern("lm"), 0));
 	char *dict = RSTRING_PTR(rb_funcall(self, rb_intern("dict"), 0));
+
+	int i;
+	for(i = 0; i < data_length; i++) {
+		c_data[i] = NUM2SHORT(rb_ary_entry(data, i));
+	}
+
 	config = cmd_ln_init(NULL, ps_args(), TRUE, "-hmm", hmm, "-lm", lm, "-dict", dict, "-logfn", "/dev/null", NULL);
 	if (config == NULL)
 		rb_raise(rb_eStandardError, "configuration might be wrong");
