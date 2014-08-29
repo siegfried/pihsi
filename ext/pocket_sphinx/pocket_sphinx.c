@@ -21,24 +21,37 @@ VALUE recognize(VALUE self, VALUE data) {
 	}
 
 	config = cmd_ln_init(NULL, ps_args(), TRUE, "-hmm", hmm, "-lm", lm, "-dict", dict, "-logfn", "/dev/null", NULL);
-	if (config == NULL)
+
+	if (config == NULL) {
+		free(c_data);
 		rb_raise(rb_eStandardError, "configuration might be wrong");
+	}
 
 	ps = ps_init(config);
 	rv = ps_start_utt(ps, "goforward");
-	if (rv < 0)
+
+	if (rv < 0) {
+		free(c_data);
 		rb_raise(rb_eStandardError, "cannot start utterance");
+	}
 
 	rv = ps_process_raw(ps, c_data, data_length, FALSE, FALSE);
 	rv = ps_end_utt(ps);
-	if (rv < 0)
+
+	if (rv < 0) {
+		free(c_data);
 		rb_raise(rb_eStandardError, "cannot end utterance");
+	}
+
 	hyp = ps_get_hyp(ps, &score, &uttid);
-	if (hyp == NULL)
-		rb_raise(rb_eStandardError, "no hypothesis string");
 
 	free(c_data);
-	return rb_str_new2(hyp);
+
+	if (hyp == NULL) {
+		return Qnil;
+	} else {
+		return rb_str_new2(hyp);
+	}
 }
 
 void Init_pocket_sphinx() {
