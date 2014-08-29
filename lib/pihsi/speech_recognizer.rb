@@ -1,4 +1,4 @@
-require "pocket_sphinx"
+require "pocket_sphinx/pocket_sphinx"
 
 module Pihsi
   class SpeechRecognizer

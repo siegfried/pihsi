@@ -2,7 +2,9 @@ require "bundler/gem_tasks"
 require 'rake/extensiontask'
 require 'rspec/core/rake_task'
 
-Rake::ExtensionTask.new('pocket_sphinx')
+Rake::ExtensionTask.new('pocket_sphinx') do |ext|
+  ext.lib_dir = "lib/pocket_sphinx"
+end
 
 desc "Run the specs"
 RSpec::Core::RakeTask.new do |t|
