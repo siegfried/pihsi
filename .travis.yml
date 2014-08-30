@@ -5,5 +5,8 @@ rvm:
   - 1.9.3
   - rbx-2.2.7
 before_install:
-  - sudo apt-get update
-  - sudo apt-get install libpocketsphinx-dev libsphinxbase-dev
+  - wget http://downloads.sourceforge.net/project/cmusphinx/pocketsphinx/0.8/pocketsphinx-0.8.tar.gz
+  - cd pocketsphinx-0.8
+  - ./configure
+  - make
+  - sudo make install
