@@ -6,6 +6,7 @@ rvm:
   - rbx-2.2.7
 before_install:
   - wget http://downloads.sourceforge.net/project/cmusphinx/pocketsphinx/0.8/pocketsphinx-0.8.tar.gz
+  - tar -zxf pocketsphinx-0.8.tar.gz
   - cd pocketsphinx-0.8
   - ./configure
   - make
