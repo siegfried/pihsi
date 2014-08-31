@@ -17,3 +17,4 @@ before_install:
   - ./configure
   - make
   - sudo make install
+install: bundle install
