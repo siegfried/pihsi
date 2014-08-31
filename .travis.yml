@@ -11,10 +11,11 @@ before_install:
   - ./configure
   - make
   - sudo make install
+  - cd ..
   - wget http://downloads.sourceforge.net/project/cmusphinx/pocketsphinx/0.8/pocketsphinx-0.8.tar.gz
   - tar -zxf pocketsphinx-0.8.tar.gz
   - cd pocketsphinx-0.8
   - ./configure
   - make
   - sudo make install
-install: bundle install
+  - cd ..
