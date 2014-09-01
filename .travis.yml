@@ -5,6 +5,8 @@ rvm:
   - 1.9.3
   - rbx-2.2.7
 before_install:
+  - apt-get update
+  - apt-get install build-essential bison
   - wget http://downloads.sourceforge.net/project/cmusphinx/sphinxbase/0.8/sphinxbase-0.8.tar.gz
   - tar -zxf sphinxbase-0.8.tar.gz
   - cd sphinxbase-0.8
