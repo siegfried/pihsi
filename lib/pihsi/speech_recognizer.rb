@@ -8,5 +8,9 @@ module Pihsi
     def initialize(hmm, lm, dict)
       @hmm, @lm, @dict = hmm, lm, dict
     end
+
+    def recognize(data)
+      super data.unpack('s*')
+    end
   end
 end
