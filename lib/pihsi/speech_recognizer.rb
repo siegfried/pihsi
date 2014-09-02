@@ -2,15 +2,14 @@ require "pocket_sphinx/pocket_sphinx"
 
 module Pihsi
   class SpeechRecognizer
-    include PocketSphinx
-    attr_reader :hmm, :lm, :dict
+    attr_reader :decoder
 
     def initialize(hmm, lm, dict)
-      @hmm, @lm, @dict = hmm, lm, dict
+      @decoder = PocketSphinx::Decoder.new hmm, lm, dict
     end
 
     def recognize(data)
-      super data.unpack('s*')
+      decoder.decode data.unpack('s*')
     end
   end
 end
