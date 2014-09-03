@@ -66,7 +66,7 @@ static VALUE allocate(VALUE self) {
 VALUE initialize(VALUE self, VALUE options) {
     int i;
     PocketSphinx *ps;
-    VALUE option, key, value, klass;
+    VALUE option, key, value;
     char *c_key;
     cmd_ln_t *config = cmd_ln_init(NULL, ps_args(), TRUE, "-logfn", "/dev/null", NULL);
 
@@ -75,13 +75,12 @@ VALUE initialize(VALUE self, VALUE options) {
         key = rb_ary_entry(option, 0);
         c_key = RSTRING_PTR(key);
         value = rb_ary_entry(option, 1);
-        klass = rb_funcall(value, rb_intern("class"), 0);
 
-        if (klass == rb_cString) {
+        if (rb_obj_is_kind_of(value, rb_cString)) {
             cmd_ln_set_str_r(config, c_key, RSTRING_PTR(value));
-        } else if (klass == rb_cFixnum) {
+        } else if (rb_obj_is_kind_of(value, rb_cFixnum)) {
             cmd_ln_set_int_r(config, c_key, NUM2LONG(value));
-        } else if (klass == rb_cFloat) {
+        } else if (rb_obj_is_kind_of(value, rb_cFloat)) {
             cmd_ln_set_float_r(config, c_key, NUM2DBL(value));
         }
     }
