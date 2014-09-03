@@ -20,7 +20,7 @@ VALUE decode(VALUE self, VALUE data) {
 
 	int i;
 	for(i = 0; i < data_length; i++) {
-		c_data[i] = NUM2SHORT(rb_ary_entry(data, i));
+		c_data[i] = NUM2INT(rb_ary_entry(data, i)); // Rubinius does not support NUM2SHORT();
 	}
 
 	rv = ps_start_utt(ps, "goforward");
