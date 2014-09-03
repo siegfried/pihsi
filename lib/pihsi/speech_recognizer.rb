@@ -13,7 +13,9 @@ module Pihsi
     end
 
     def recognize(data)
-      decoder.decode data.unpack('s*')
+      if result = decoder.decode(data.unpack('s*'))
+        result["hypothesis"]
+      end
     end
   end
 end

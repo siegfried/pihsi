@@ -11,6 +11,7 @@ VALUE decode(VALUE self, VALUE data) {
 	int32 score;
 	ps_decoder_t *ps;
 	PocketSphinx *pocketSphinx;
+	VALUE result = rb_hash_new();
 
 	Data_Get_Struct(self, PocketSphinx, pocketSphinx);
 	ps = pocketSphinx -> decoder;
@@ -45,7 +46,9 @@ VALUE decode(VALUE self, VALUE data) {
 	if (hyp == NULL) {
 		return Qnil;
 	} else {
-		return rb_str_new2(hyp);
+		rb_hash_aset(result, rb_str_new2("score"), INT2NUM(hyp));
+		rb_hash_aset(result, rb_str_new2("hypothesis"), rb_str_new2(hyp));
+		return result;
 	}
 }
 
