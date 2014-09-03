@@ -24,4 +24,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3"
   spec.add_development_dependency "factory_girl", "~> 4.0"
   spec.add_development_dependency "rake-compiler"
+  spec.add_development_dependency "coveralls"
 end
