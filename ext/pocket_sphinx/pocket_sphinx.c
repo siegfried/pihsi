@@ -60,11 +60,32 @@ static VALUE allocate(VALUE self) {
 	return Data_Make_Struct(self, PocketSphinx, 0, deallocate, ps);
 }
 
-VALUE initialize(VALUE self, VALUE hmm, VALUE lm, VALUE dict) {
-	cmd_ln_t *config = cmd_ln_init(NULL, ps_args(), TRUE, "-hmm", RSTRING_PTR(hmm), "-lm", RSTRING_PTR(lm), "-dict", RSTRING_PTR(dict), "-logfn", "/dev/null", NULL);
+VALUE initialize(VALUE self, VALUE options) {
+	int i;
 	PocketSphinx *ps;
+	VALUE option, key, value, klass;
+	char *c_key;
+	cmd_ln_t *config = cmd_ln_init(NULL, ps_args(), TRUE, "-logfn", "/dev/null", NULL);
+
+	for (i = 0; i < RARRAY_LEN(options); i++) {
+		option = rb_ary_entry(options, i);
+		key = rb_ary_entry(option, 0);
+		c_key = RSTRING_PTR(key);
+		value = rb_ary_entry(option, 1);
+		klass = rb_funcall(value, rb_intern("class"), 0);
+
+		if (klass == rb_cString) {
+			cmd_ln_set_str_r(config, c_key, RSTRING_PTR(value));
+		} else if (klass == rb_cFixnum) {
+			cmd_ln_set_int_r(config, c_key, NUM2LONG(value));
+		} else if (klass == rb_cFloat) {
+			cmd_ln_set_float_r(config, c_key, NUM2DBL(value));
+		}
+	}
+
 	if (config == NULL)
 		rb_raise(rb_eStandardError, "bad configuration");
+
 	Data_Get_Struct(self, PocketSphinx, ps);
 	ps -> decoder = ps_init(config);
 	return self;
@@ -75,6 +96,6 @@ void Init_pocket_sphinx() {
 	VALUE rb_mPocketSphinx = rb_define_module_under(rb_mPihsi, "PocketSphinx");
 	VALUE rb_cDecoder = rb_define_class_under(rb_mPocketSphinx, "Decoder", rb_cObject);
 	rb_define_alloc_func(rb_cDecoder, allocate);
-	rb_define_method(rb_cDecoder, "initialize", initialize, 3);
+	rb_define_method(rb_cDecoder, "initialize", initialize, 1);
 	rb_define_method(rb_cDecoder, "decode", decode, 1);
 }

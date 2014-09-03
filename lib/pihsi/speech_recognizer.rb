@@ -4,8 +4,12 @@ module Pihsi
   class SpeechRecognizer
     attr_reader :decoder
 
-    def initialize(hmm, lm, dict)
-      @decoder = PocketSphinx::Decoder.new hmm, lm, dict
+    def initialize(options = {})
+      _options = options.inject({}) do |result, (key, value)|
+        result["-#{key}"] = value unless value.nil?
+        result
+      end.to_a
+      @decoder = PocketSphinx::Decoder.new(_options)
     end
 
     def recognize(data)
