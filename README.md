@@ -29,13 +29,13 @@ Or install it yourself as:
 Initialize Pihsi::SpeechRecognizer with proper [hmm, lm and dict](http://cmusphinx.sourceforge.net/wiki/tutorialpocketsphinx#initialization):
 
 ```ruby
-recognizer = Pihsi::SpeechRecognizer.new hmm, lm, dict
+recognizer = Pihsi::SpeechRecognizer.new
 ```
 
 Recognize a string read from your audio file:
 
 ```ruby
-recognizer.recognize string_buffer
+recognizer.recognize data
 ```
 
 ## Contributing
