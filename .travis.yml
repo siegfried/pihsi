@@ -10,7 +10,7 @@ before_install:
   - wget http://downloads.sourceforge.net/project/cmusphinx/sphinxbase/0.8/sphinxbase-0.8.tar.gz
   - tar -zxf sphinxbase-0.8.tar.gz
   - cd sphinxbase-0.8
-  - ./configure
+  - ./configure --enable-fixed
   - make
   - sudo make install
   - cd ..
