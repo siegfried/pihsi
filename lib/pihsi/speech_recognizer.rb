@@ -5,10 +5,10 @@ module Pihsi
     attr_reader :decoder
 
     def initialize(options = {})
-      _options = options.inject({}) do |result, (key, value)|
-        result["-#{key}"] = value unless value.nil?
+      _options = options.inject([]) do |result, (key, value)|
+        result << ["-#{key}", value] unless value.nil?
         result
-      end.to_a
+      end
       @decoder = PocketSphinx::Decoder.new(_options)
     end
 
