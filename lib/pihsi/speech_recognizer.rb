@@ -13,6 +13,7 @@ module Pihsi
     end
 
     # Converts raw audio data into text
+    #
     # @param data [String] the raw audio data
     # @return [String, nil] the transcribed text or nil
     def recognize(data)
