@@ -5,6 +5,11 @@ typedef struct ps {
     ps_decoder_t *decoder;
 } PocketSphinx;
 
+/* Converts raw audio data into text.
+ *
+ * @param data [String] the raw audio data
+ * @return [String, nil] the transcribed text or nil
+ */
 VALUE recognize(VALUE self, VALUE data) {
     char const *hyp, *uttid;
     int rv;
@@ -46,6 +51,9 @@ static VALUE allocate(VALUE self) {
     return Data_Make_Struct(self, PocketSphinx, 0, deallocate, ps);
 }
 
+/*
+ * @param options [Hash] PocketSphinx configuration (e.g. hmm)
+ */
 VALUE initialize(VALUE self, VALUE options_hash) {
     int i;
     PocketSphinx *ps;
