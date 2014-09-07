@@ -5,6 +5,8 @@ typedef struct ps {
     ps_decoder_t *decoder;
 } PocketSphinx;
 
+static VALUE rb_eUtteranceError;
+
 /* Converts raw audio data into text.
  *
  * @param data [String] the raw audio data
@@ -23,13 +25,13 @@ VALUE recognize(VALUE self, VALUE data) {
     rv = ps_start_utt(ps, "goforward");
 
     if (rv < 0)
-        rb_raise(rb_eStandardError, "cannot start utterance");
+        rb_raise(rb_eUtteranceError, "cannot start utterance");
 
     rv = ps_process_raw(ps, (int16 *) RSTRING_PTR(data), RSTRING_LEN(data) / 2, FALSE, FALSE);
     rv = ps_end_utt(ps);
 
     if (rv < 0)
-        rb_raise(rb_eStandardError, "cannot end utterance");
+        rb_raise(rb_eUtteranceError, "cannot end utterance");
 
     hyp = ps_get_hyp(ps, &score, &uttid);
 
@@ -93,4 +95,5 @@ void Init_pocket_sphinx() {
     rb_define_alloc_func(rb_cSpeechRecognizer, allocate);
     rb_define_method(rb_cSpeechRecognizer, "initialize", initialize, 1);
     rb_define_method(rb_cSpeechRecognizer, "recognize", recognize, 1);
+    rb_eUtteranceError = rb_define_class_under(rb_mPihsi, "UtteranceError", rb_eStandardError);
 }
