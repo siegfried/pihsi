@@ -7,20 +7,10 @@ typedef struct ps {
 
 static VALUE rb_eUtteranceError;
 
-/* Converts raw audio data into text.
- *
- * @param data [String] the raw audio data
- * @return [String, nil] the transcribed text or nil
- */
-VALUE recognize(VALUE self, VALUE data) {
+static VALUE decode(ps_decoder_t *ps, VALUE data) {
     char const *hyp, *uttid;
     int rv;
     int32 score;
-    ps_decoder_t *ps;
-    PocketSphinx *pocketSphinx;
-
-    Data_Get_Struct(self, PocketSphinx, pocketSphinx);
-    ps = pocketSphinx -> decoder;
 
     rv = ps_start_utt(ps, "goforward");
 
@@ -40,6 +30,26 @@ VALUE recognize(VALUE self, VALUE data) {
     } else {
         return rb_str_new2(hyp);
     }
+}
+
+/* Converts raw audio data into text.
+ *
+ * @param data [String, #read] the raw audio data or its io object
+ * @return [String, nil] the transcribed text or nil
+ */
+VALUE recognize(VALUE self, VALUE data) {
+    VALUE string;
+    PocketSphinx *pocketSphinx;
+
+    Data_Get_Struct(self, PocketSphinx, pocketSphinx);
+    if (rb_funcall(data, rb_intern("respond_to?"), 1, rb_str_new2("read")) == Qtrue) {
+        string = rb_funcall(data, rb_intern("read"), 0);
+    } else if (rb_obj_is_kind_of(data, rb_cString)) {
+        string = data;
+    } else {
+        rb_raise(rb_eArgError, "data can only be a string or an IO object");
+    }
+    return decode(pocketSphinx -> decoder, string);
 }
 
 static void deallocate(void *ps) {
