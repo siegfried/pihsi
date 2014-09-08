@@ -32,7 +32,7 @@ Initialize Pihsi::SpeechRecognizer with proper [hmm, lm and dict](http://cmusphi
 recognizer = Pihsi::SpeechRecognizer.new hmm: 'xxx', lm: 'yyy', dict: 'zzz'
 ```
 
-Recognize a string read from your audio file:
+Recognize a string read from your audio file or an object respond to #read (IO object):
 
 ```ruby
 recognizer.recognize data
