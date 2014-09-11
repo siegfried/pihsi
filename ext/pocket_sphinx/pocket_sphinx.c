@@ -52,8 +52,7 @@ VALUE recognize(VALUE self, VALUE data) {
     return decode(pocketSphinx -> decoder, string);
 }
 
-static void deallocate(void *ps) {
-    PocketSphinx *pocketSphinx = ps;
+static void deallocate(PocketSphinx *pocketSphinx) {
     ps_free(pocketSphinx -> decoder);
     free(pocketSphinx);
 }
