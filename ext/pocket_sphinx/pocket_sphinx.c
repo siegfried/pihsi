@@ -5,6 +5,8 @@ typedef struct ps {
     ps_decoder_t *decoder;
 } PocketSphinx;
 
+static VALUE rb_mPihsi;
+static VALUE rb_cSpeechRecognizer;
 static VALUE rb_eUtteranceError;
 
 static VALUE decode(ps_decoder_t *ps, VALUE data) {
@@ -99,8 +101,9 @@ VALUE initialize(VALUE self, VALUE options_hash) {
 }
 
 void Init_pocket_sphinx() {
-    VALUE rb_mPihsi = rb_define_module("Pihsi");
-    VALUE rb_cSpeechRecognizer = rb_define_class_under(rb_mPihsi, "SpeechRecognizer", rb_cObject);
+    rb_mPihsi = rb_define_module("Pihsi");
+
+    rb_cSpeechRecognizer = rb_define_class_under(rb_mPihsi, "SpeechRecognizer", rb_cObject);
     rb_define_alloc_func(rb_cSpeechRecognizer, allocate);
     rb_define_method(rb_cSpeechRecognizer, "initialize", initialize, 1);
     rb_define_method(rb_cSpeechRecognizer, "recognize", recognize, 1);
