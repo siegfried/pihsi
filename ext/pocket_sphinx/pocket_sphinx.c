@@ -56,7 +56,7 @@ VALUE recognize(VALUE self, VALUE data) {
 
 static void deallocate(PocketSphinx *pocketSphinx) {
     ps_free(pocketSphinx -> decoder);
-    free(pocketSphinx);
+    xfree(pocketSphinx);
 }
 
 static VALUE allocate(VALUE self) {
